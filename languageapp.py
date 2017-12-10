@@ -6,17 +6,17 @@ database = Database("mylanguage.db")
 def view_words_command():
     lb1.delete(0,END)
     for row in database.view_all_words():
-        lb1.insert(END,row)
+        lb1.insert(END,lb1.insert(END,str(row[0])+ ". Language: " + row[1] + ", English: " + row[2] + ", Word: " + row[3] + ", Pronunciation: " + row[4] + ", Definition: " + row[5]))
 
 def view_rules_command():
     lb2.delete(0,END)
     for row in database.view_all_rules():
-        lb2.insert(END,row)
+        lb2.insert(END,str(row[0]) + ". Language: " + row[1] + ", Rule Name: " + row[2] + ", Rule: " + row[3])
 
 def search_words_command():
     lb1.delete(0,END)
     for row in database.search_words(lang_text.get(),eng_text.get(),word_text.get(),pronunciation_text.get(),definition_text.get()):
-        lb1.insert(END,row)
+        lb1.insert(END,str(row[0]) + ". Language: " + row[1] + ", English: " + row[2] + ", Word: " + row[3] + ", Pronunciation: " + row[4] + ", Definition: " + row[5])
         e_lang.delete(0,END)
         e1.delete(0,END)
         e2.delete(0,END)
@@ -24,13 +24,47 @@ def search_words_command():
         e4.delete(0,END)
 
 def search_rules_command():
-    lb1.delete(0,END)
+    lb2.delete(0,END)
     for row in database.search_rules(lang_text2.get(),name_text.get(),rule_text.get()):
-        lb2.insert(END,row)
+        lb2.insert(END,str(row[0]) + ". Language: " + row[1] + ", Rule Name: " + row[2] + ", Rule: " + row[3])
         e_lang2.delete(0,END)
         e5.delete(0,END)
         e6.delete(0,END)
 
+def add_word_command():
+    database.insert_word(lang_text.get(),eng_text.get(),word_text.get(),pronunciation_text.get(),definition_text.get())
+    lb1.delete(0,END)
+    lb1.insert(END,("Language: " + lang_text.get() + ", English: " + eng_text.get() + ", Word: " + word_text.get() + ", Pronunciation: " + pronunciation_text.get() + ", Definition: " + definition_text.get()))
+    e_lang.delete(0,END)
+    e1.delete(0,END)
+    e2.delete(0,END)
+    e3.delete(0,END)
+    e4.delete(0,END)
+
+def add_rule_command():
+    database.insert_rule(lang_text2.get(),name_text.get(),rule_text.get())
+    lb2.delete(0,END)
+    lb2.insert(END,("Language: " + lang_text2.get() + ", Rule Name: " + name_text.get() + ", Rule: " + rule_text.get()))
+    e_lang2.delete(0,END)
+    e5.delete(0,END)
+    e6.delete(0,END)
+
+def delete_word_command():
+    database.delete_word(int(selected_tuple1[0]))
+    lb1.delete(0,END)
+    e_lang.delete(0,END)
+    e1.delete(0,END)
+    e2.delete(0,END)
+    e3.delete(0,END)
+    e4.delete(0,END)
+
+def get_selected_row1(event):
+    try:
+        global selected_tuple1
+        index=lb1.curselection()[0]
+        selected_tuple1=lb1.get(index)
+    except IndexError:
+        pass
 window=Tk()
 
 window.wm_title('Fantasy Language Builder')
@@ -79,13 +113,13 @@ b1.grid(row=2,column=1,padx=15)
 b2=Button(window,text="Search",width=10,font='Courier',command=search_words_command)
 b2.grid(row=2,column=2,padx=15)
 
-b3=Button(window,text="Add",width=10,font='Courier')
+b3=Button(window,text="Add",width=10,font='Courier',command=add_word_command)
 b3.grid(row=2,column=3,padx=15)
 
 b4=Button(window,text="Update",width=10,font='Courier')
 b4.grid(row=2,column=4,padx=15)
 
-b5=Button(window,text="Delete",width=10,font='Courier')
+b5=Button(window,text="Delete",width=10,font='Courier',command=delete_word_command)
 b5.grid(row=4,column=0,pady=12)
 
 l6=Label(window,text="GRAMMAR (Enter Language)",font=('Courier',18))
@@ -118,7 +152,7 @@ b6.grid(row=8,column=1,padx=15)
 b7=Button(window,text="Search",width=10,font='Courier',command=search_rules_command)
 b7.grid(row=8,column=2,padx=15)
 
-b8=Button(window,text="Add",width=10,font='Courier')
+b8=Button(window,text="Add",width=10,font='Courier',command=add_rule_command)
 b8.grid(row=8,column=3,padx=15)
 
 b9=Button(window,text="Update",width=10,font='Courier')
@@ -130,6 +164,6 @@ b10.grid(row=9,column=0,pady=12)
 b11=Button(window,text="Close",width=10,font='Courier')
 b11.grid(row=9,column=4)
 
-#lb1.bind('<<ListboxSelect>>',get_selected_row)
+lb1.bind('<<ListboxSelect>>',get_selected_row1)
 
 window.mainloop()
