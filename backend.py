@@ -31,6 +31,8 @@ class Database:
         rows=self.cur.fetchall()
         return rows
 
+
+
     def show_lang1_values(self,id):
         self.cur.execute('SELECT language FROM words WHERE id=?', (id,))
         row=self.cur.fetchall()
