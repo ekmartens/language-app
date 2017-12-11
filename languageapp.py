@@ -72,7 +72,25 @@ def get_selected_row1(event):
         global selected_tuple1
         index=lb1.curselection()[0]
         selected_tuple1=lb1.get(index)
-        get_val=int(selected_tuple1[0])
+        try:
+            get_val=int(selected_tuple1[0] + selected_tuple1[1] + selected_tuple1[2] + selected_tuple1[3] + selected_tuple1[4] + selected_tuple1[5])
+        except ValueError:
+            try:
+                get_val=int(selected_tuple1[0] + selected_tuple1[1] + selected_tuple1[2] + selected_tuple1[3] + selected_tuple1[4])
+            except ValueError:
+                try:
+                    get_val=int(selected_tuple1[0] + selected_tuple1[1] + selected_tuple1[2] + selected_tuple1[3])
+                except ValueError:
+                    try:
+                        get_val=int(selected_tuple1[0] + selected_tuple1[1] + selected_tuple1[2])
+                    except ValueError:
+                        try:
+                            get_val=int(selected_tuple1[0] + selected_tuple1[1])
+                        except ValueError:
+                            try:
+                                get_val=int(selected_tuple1[0])
+                            except ValueError:
+                                pass
         e_lang.delete(0,END)
         e_lang.insert(END,database.show_lang1_values(get_val))
         e1.delete(0,END)
