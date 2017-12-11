@@ -34,20 +34,20 @@ def search_rules_command():
 def add_word_command():
     database.insert_word(lang_text.get(),eng_text.get(),word_text.get(),pronunciation_text.get(),definition_text.get())
     lb1.delete(0,END)
-    lb1.insert(END,("Language: " + lang_text.get() + ", English: " + eng_text.get() + ", Word: " + word_text.get() + ", Pronunciation: " + pronunciation_text.get() + ", Definition: " + definition_text.get()))
     e_lang.delete(0,END)
     e1.delete(0,END)
     e2.delete(0,END)
     e3.delete(0,END)
     e4.delete(0,END)
+    view_words_command()
 
 def add_rule_command():
     database.insert_rule(lang_text2.get(),name_text.get(),rule_text.get())
     lb2.delete(0,END)
-    lb2.insert(END,("Language: " + lang_text2.get() + ", Rule Name: " + name_text.get() + ", Rule: " + rule_text.get()))
     e_lang2.delete(0,END)
     e5.delete(0,END)
     e6.delete(0,END)
+    view_rules_command()
 
 def delete_word_command():
     database.delete_word(int(selected_tuple1[0]))
@@ -57,14 +57,68 @@ def delete_word_command():
     e2.delete(0,END)
     e3.delete(0,END)
     e4.delete(0,END)
+    view_words_command()
+
+def delete_rule_command():
+    database.delete_rule(int(selected_tuple2[0]))
+    lb2.delete(0,END)
+    e_lang2.delete(0,END)
+    e5.delete(0,END)
+    e6.delete(0,END)
+    view_rules_command()
 
 def get_selected_row1(event):
     try:
         global selected_tuple1
         index=lb1.curselection()[0]
         selected_tuple1=lb1.get(index)
+        get_val=int(selected_tuple1[0])
+        e_lang.delete(0,END)
+        e_lang.insert(END,database.show_lang1_values(get_val))
+        e1.delete(0,END)
+        e1.insert(END,database.show_eng_values(get_val))
+        e2.delete(0,END)
+        e2.insert(END,database.show_word_values(get_val))
+        e3.delete(0,END)
+        e3.insert(END,database.show_pronunciation_values(get_val))
+        e4.delete(0,END)
+        e4.insert(END,database.show_definition_values(get_val))
     except IndexError:
         pass
+
+def get_selected_row2(event):
+    try:
+        global selected_tuple2
+        index=lb2.curselection()[0]
+        selected_tuple2=lb2.get(index)
+        get_val=int(selected_tuple2[0])
+        e_lang2.delete(0,END)
+        e_lang2.insert(END,database.show_lang2_values(get_val))
+        e5.delete(0,END)
+        e5.insert(END,database.show_name_values(get_val))
+        e6.delete(0,END)
+        e6.insert(END,database.show_rule_values(get_val))
+    except IndexError:
+        pass
+
+def update_word_command():
+    database.update_word(selected_tuple1[0],lang_text.get(),eng_text.get(),word_text.get(),pronunciation_text.get(),definition_text.get())
+    lb1.delete(0,END)
+    view_words_command()
+    e_lang.delete(0,END)
+    e1.delete(0,END)
+    e2.delete(0,END)
+    e3.delete(0,END)
+    e4.delete(0,END)
+
+def update_rule_command():
+    database.update_rule(selected_tuple2[0],lang_text2.get(),name_text.get(),rule_text.get())
+    lb2.delete(0,END)
+    view_rules_command()
+    e_lang2.delete(0,END)
+    e5.delete(0,END)
+    e6.delete(0,END)
+
 window=Tk()
 
 window.wm_title('Fantasy Language Builder')
@@ -116,7 +170,7 @@ b2.grid(row=2,column=2,padx=15)
 b3=Button(window,text="Add",width=10,font='Courier',command=add_word_command)
 b3.grid(row=2,column=3,padx=15)
 
-b4=Button(window,text="Update",width=10,font='Courier')
+b4=Button(window,text="Update",width=10,font='Courier',command=update_word_command)
 b4.grid(row=2,column=4,padx=15)
 
 b5=Button(window,text="Delete",width=10,font='Courier',command=delete_word_command)
@@ -155,15 +209,16 @@ b7.grid(row=8,column=2,padx=15)
 b8=Button(window,text="Add",width=10,font='Courier',command=add_rule_command)
 b8.grid(row=8,column=3,padx=15)
 
-b9=Button(window,text="Update",width=10,font='Courier')
+b9=Button(window,text="Update",width=10,font='Courier',command=update_rule_command)
 b9.grid(row=8,column=4,padx=15)
 
-b10=Button(window,text="Delete",width=10,font='Courier')
+b10=Button(window,text="Delete",width=10,font='Courier',command=delete_rule_command)
 b10.grid(row=9,column=0,pady=12)
 
-b11=Button(window,text="Close",width=10,font='Courier')
+b11=Button(window,text="Close",width=10,font='Courier',command=window.destroy)
 b11.grid(row=9,column=4)
 
 lb1.bind('<<ListboxSelect>>',get_selected_row1)
+lb2.bind('<<ListboxSelect>>',get_selected_row2)
 
 window.mainloop()

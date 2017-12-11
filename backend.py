@@ -31,6 +31,54 @@ class Database:
         rows=self.cur.fetchall()
         return rows
 
+    def show_lang1_values(self,id):
+        self.cur.execute('SELECT language FROM words WHERE id=?', (id,))
+        row=self.cur.fetchall()
+        for item in row:
+            return str(item[0])
+
+    def show_eng_values(self,id):
+        self.cur.execute('SELECT english FROM words WHERE id=?', (id,))
+        row=self.cur.fetchall()
+        for item in row:
+            return str(item[0])
+
+    def show_word_values(self,id):
+        self.cur.execute('SELECT word FROM words WHERE id=?', (id,))
+        row=self.cur.fetchall()
+        for item in row:
+            return str(item[0])
+
+    def show_pronunciation_values(self,id):
+        self.cur.execute('SELECT pronunciation FROM words WHERE id=?', (id,))
+        row=self.cur.fetchall()
+        for item in row:
+            return str(item[0])
+
+    def show_definition_values(self,id):
+        self.cur.execute('SELECT definition FROM words WHERE id=?', (id,))
+        row=self.cur.fetchall()
+        for item in row:
+            return str(item[0])
+
+    def show_lang2_values(self,id):
+        self.cur.execute('SELECT language FROM rules WHERE id=?', (id,))
+        row=self.cur.fetchall()
+        for item in row:
+            return str(item[0])
+
+    def show_name_values(self,id):
+        self.cur.execute('SELECT name FROM rules WHERE id=?', (id,))
+        row=self.cur.fetchall()
+        for item in row:
+            return str(item[0])
+
+    def show_rule_values(self,id):
+        self.cur.execute('SELECT rule FROM rules WHERE id=?', (id,))
+        row=self.cur.fetchall()
+        for item in row:
+            return str(item[0])
+
     def search_rules(self,language='',name='',rule=''):
         self.cur.execute('SELECT * FROM rules WHERE language=? OR name=? OR rule=?', (language,name,rule))
         rows=self.cur.fetchall()
