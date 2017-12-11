@@ -102,12 +102,3 @@ class Database:
 
     def __del__(self):
         self.conn.close()
-
-#language_db = Database("mylanguage.db")
-#language_db.insert_word("Tetzi","Hello","Teldi","TEHL-dee","A peaceful greeting; Love;")
-#language_db.insert_rule("Tetzi","Random Rule","This is my rule.")
-#language_db.delete_rule(2)
-#language_db.update_word(1,"Tetzi","Hello","Teldi","TEHL-dee","A peaceful greeting; Love")
-#language_db.update_rule(1, 'Tetzi', 'Possessive', 'Add “ahí” to the beginning of a word ending in “a”, “o”, or “u” to make it a possessive “my”, for words ending in “i”, add “ahó”')
-#print(language_db.view_all_words())
-#print(language_db.view_all_rules())
