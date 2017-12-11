@@ -138,7 +138,26 @@ def get_selected_row2(event):
         pass
 
 def update_word_command():
-    database.update_word(selected_tuple1[0],lang_text.get(),eng_text.get(),word_text.get(),pronunciation_text.get(),definition_text.get())
+    try:
+        tup1=int(selected_tuple1[0] + selected_tuple1[1] + selected_tuple1[2] + selected_tuple1[3] + selected_tuple1[4] + selected_tuple1[5])
+    except ValueError:
+        try:
+            tup1=int(selected_tuple1[0] + selected_tuple1[1] + selected_tuple1[2] + selected_tuple1[3] + selected_tuple1[4])
+        except ValueError:
+            try:
+                tup1=int(selected_tuple1[0] + selected_tuple1[1] + selected_tuple1[2] + selected_tuple1[3])
+            except ValueError:
+                try:
+                    tup1=int(selected_tuple1[0] + selected_tuple1[1] + selected_tuple1[2])
+                except ValueError:
+                    try:
+                        tup1=int(selected_tuple1[0] + selected_tuple1[1])
+                    except ValueError:
+                        try:
+                            tup1=int(selected_tuple1[0])
+                        except ValueError:
+                            pass
+    database.update_word(tup1,lang_text.get(),eng_text.get(),word_text.get(),pronunciation_text.get(),definition_text.get())
     lb1.delete(0,END)
     view_words_command()
     e_lang.delete(0,END)
@@ -148,7 +167,26 @@ def update_word_command():
     e4.delete(0,END)
 
 def update_rule_command():
-    database.update_rule(selected_tuple2[0],lang_text2.get(),name_text.get(),rule_text.get())
+    try:
+        tup2=int(selected_tuple2[0] + selected_tuple2[1] + selected_tuple2[2] + selected_tuple2[3] + selected_tuple2[4] + selected_tuple2[5])
+    except ValueError:
+        try:
+            tup2=int(selected_tuple2[0] + selected_tuple2[1] + selected_tuple2[2] + selected_tuple2[3] + selected_tuple2[4])
+        except ValueError:
+            try:
+                tup2=int(selected_tuple2[0] + selected_tuple2[1] + selected_tuple2[2] + selected_tuple2[3])
+            except ValueError:
+                try:
+                    tup2=int(selected_tuple2[0] + selected_tuple2[1] + selected_tuple2[2])
+                except ValueError:
+                    try:
+                        tup2=int(selected_tuple2[0] + selected_tuple2[1])
+                    except ValueError:
+                        try:
+                            tup2=int(selected_tuple2[0])
+                        except ValueError:
+                            pass
+    database.update_rule(tup2,lang_text2.get(),name_text.get(),rule_text.get())
     lb2.delete(0,END)
     view_rules_command()
     e_lang2.delete(0,END)
